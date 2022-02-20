@@ -17,6 +17,8 @@ public:
     LinkedList& insert(int,int);
     LinkedList& remove(int);
     
+    int find(int);
+
     int& operator[](int);
 
     void printList();

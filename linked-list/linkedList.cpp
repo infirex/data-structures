@@ -83,6 +83,21 @@ LinkedList &LinkedList::remove(int val)
     return *this;
 }
 
+int LinkedList::find(int val)
+{
+    Node *iter{root};
+
+    int index{};
+
+    while (iter->next != nullptr && iter->data != val)
+    {
+        index++;
+        iter = iter->next;
+    }
+    
+    return iter->data == val ? index : -1;
+
+}
 
 int &LinkedList::operator[](int index)
 {
