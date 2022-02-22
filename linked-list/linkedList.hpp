@@ -6,20 +6,28 @@ class LinkedList
 {
 private:
     int data;
+    int size;
     Node *root;
+    Node *last;
 
-    Node *last();
+    // Node *last();
 
 public:
     LinkedList();
 
-    LinkedList& insert(int);
+    LinkedList& insertBegin(int);
+    LinkedList& insertEnd(int);
     LinkedList& insert(int,int);
     LinkedList& remove(int);
-    
-    int find(int);
+    LinkedList& removeFirst();
+    LinkedList& removeLast();
+
+    int find(int) const;
+    int getSize() const;
+    int getLastElement() const;
+    int getFirstElement() const;
+
 
     int& operator[](int);
-
-    void printList();
+    friend std::ostream& operator<<(std::ostream&,const LinkedList&);
 };

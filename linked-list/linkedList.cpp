@@ -1,59 +1,109 @@
 #include "linkedList.hpp"
 
-LinkedList::LinkedList() : root{nullptr}
+LinkedList::LinkedList() : root{nullptr}, last{nullptr}, size{0}
 {
 }
 
-Node *LinkedList::last()
+int LinkedList::getLastElement() const
 {
-    Node *iter{root};
-
-    while (iter->next != nullptr)
-        iter = iter->next;
-
-    return iter;
+    return last->data;
 }
 
-LinkedList &LinkedList::insert(int val)
+int LinkedList::getFirstElement() const
+{
+    return root->data;
+}
+
+int LinkedList::getSize() const
+{
+    return size + 1;
+}
+
+LinkedList &LinkedList::insertBegin(int val)
+{
+    Node *newNode{new Node{val}};
+
+    Node *temp{root};
+    root = newNode;
+    root->next = temp;
+
+    size++;
+    return *this;
+}
+
+LinkedList &LinkedList::insertEnd(int val)
 {
     Node *node{new Node{val}};
 
     if (root == nullptr) // no exist item in the list
     {
         root = node;
+        last = root;
         return *this;
     }
 
-    last()->next = node;
+    last->next = node;
+    last = node;
+    size++; //  increase the size
+
     return *this;
 }
 
 LinkedList &LinkedList::insert(int val, int index)
 {
+    if (index > size)
+        return *this;
+
     Node *newNode{new Node{val}};
 
     if (index == 0)
-    {
-        Node *temp{root};
-        root = newNode;
-        root->next = temp;
-        return *this;
-    }
+        return insertBegin(val);
+
+    if (size == index)
+        return insertEnd(val);
 
     Node *iter{root};
     Node *iter2{nullptr};
 
-    for (int i = 0; i < index-1; i++)
+    for (int i = 0; i < index - 1; i++)
         iter = iter->next;
 
     iter2 = iter->next;
 
     iter->next = newNode;
+
     iter->next->next = iter2;
+
+    size++; //  increase the size
 
     return *this;
 }
 
+LinkedList &LinkedList::removeFirst()
+{
+    Node *temp{root};
+    root = root->next;
+    delete temp;
+
+    size--; //  decrease the size
+    return *this;
+}
+
+LinkedList &LinkedList::removeLast()
+{
+    Node *iter{root};
+
+    for (iter; iter->next != last; iter = iter->next)
+        ;
+
+    Node *temp{iter->next};
+    last = iter;
+    delete temp;
+    last->next = nullptr;
+
+    size--;
+    return *this;
+}
 
 LinkedList &LinkedList::remove(int val)
 {
@@ -61,29 +111,30 @@ LinkedList &LinkedList::remove(int val)
         return *this;
 
     if (root->data == val)
-    {
-        Node *temp{root};
-        root = root->next;
-        delete temp;
-        return *this;
-    }
+        return removeFirst();
 
     Node *iter{root};
 
     while (iter->next != nullptr && iter->next->data != val)
         iter = iter->next;
 
-    if (iter == last()) // not found
+    if (iter == last) // not found
         return *this;
 
     Node *temp{iter->next};
+
+    if (temp == last)
+        return removeLast();
+
     iter->next = iter->next->next;
     delete temp;
 
+    size--; //  decrease the size
     return *this;
 }
 
-int LinkedList::find(int val)
+// return the index of given val in the list
+int LinkedList::find(int val) const
 {
     Node *iter{root};
 
@@ -94,11 +145,11 @@ int LinkedList::find(int val)
         index++;
         iter = iter->next;
     }
-    
-    return iter->data == val ? index : -1;
 
+    return iter->data == val ? index : -1;
 }
 
+// get the value of the given index in the list
 int &LinkedList::operator[](int index)
 {
     Node *iter{root};
@@ -109,51 +160,16 @@ int &LinkedList::operator[](int index)
     return iter->data;
 }
 
-void LinkedList::printList()
+// print the list
+std::ostream &operator<<(std::ostream &out, const LinkedList &list)
 {
-    Node *iter{root};
+    Node *iter{list.root};
 
     while (iter != nullptr)
     {
-        std::cout << iter->data << ' ';
+        out << iter->data << ' ';
         iter = iter->next;
     }
+
+    return out;
 }
-
-// LinkedList::LinkedList() : root{nullptr}
-// {
-// }
-
-// LinkedList::LinkedList(int val)
-// {
-//     this->data = val;
-//     this->next = nullptr;
-// }
-
-// void LinkedList::insert(int val)
-// {
-//     LinkedList *node{new LinkedList{val}};
-//     if (root == nullptr)
-//     {
-//         root = node;
-//         return;
-//     }
-
-//     LinkedList *temp{root};
-
-//     while (temp->next != nullptr)
-//         temp = temp->next;
-
-//     temp->next = node;
-// }
-
-// void LinkedList::printList()
-// {
-//     LinkedList *temp{this->root};
-
-//     while (temp != nullptr)
-//     {
-//         std::cout << temp->data << ' ';
-//         temp = temp->next;
-//     }
-// }

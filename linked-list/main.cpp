@@ -3,7 +3,6 @@
 int main(int argc, char const *argv[])
 {
     LinkedList linkedlist{};
-    linkedlist.insert(1).insert(2).insert(3).insert(4,3).printList();
-    std::cout << linkedlist.find(1);
+    std::cout << linkedlist.insertEnd(1).insertEnd(2).insertEnd(3).remove(2).insertBegin(0).remove(3);
     return 0;
 }
