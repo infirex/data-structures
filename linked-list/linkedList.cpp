@@ -16,7 +16,7 @@ int LinkedList::getFirstElement() const
 
 int LinkedList::getSize() const
 {
-    return size + 1;
+    return size;
 }
 
 LinkedList &LinkedList::insertBegin(int val)
@@ -34,6 +34,7 @@ LinkedList &LinkedList::insertBegin(int val)
 LinkedList &LinkedList::insertEnd(int val)
 {
     Node *node{new Node{val}};
+    size++; //  increase the size
 
     if (root == nullptr) // no exist item in the list
     {
@@ -44,7 +45,6 @@ LinkedList &LinkedList::insertEnd(int val)
 
     last->next = node;
     last = node;
-    size++; //  increase the size
 
     return *this;
 }

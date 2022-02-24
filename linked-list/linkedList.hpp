@@ -10,7 +10,6 @@ private:
     Node *root;
     Node *last;
 
-    // Node *last();
 
 public:
     LinkedList();
