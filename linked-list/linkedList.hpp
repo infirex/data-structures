@@ -5,7 +5,6 @@
 class LinkedList
 {
 private:
-    int data;
     int size;
     Node *root;
     Node *last;
