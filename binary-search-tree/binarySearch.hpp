@@ -1,6 +1,7 @@
 #pragma once
 #include "Node.hpp"
 #include <iostream>
+#include <queue>
 
 class BinarySearch
 {
@@ -13,6 +14,7 @@ private:
     void _remove(Node *tree,int value);
     int _max(Node *tree) const;
     int _min(Node *tree) const;
+    void _printBFS(Node *tree,std::queue<Node*>& queue) const;
 
 public:
     BinarySearch();
@@ -21,6 +23,7 @@ public:
     BinarySearch& remove(int value);
     bool search(int value) const;
     void printTree() const;
+    void printBFS() const;
     int max() const;
     int min() const;
 

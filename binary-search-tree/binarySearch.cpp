@@ -104,9 +104,33 @@ int BinarySearch::min() const
     return _min(root);
 }
 
+void BinarySearch::_printBFS(Node *tree,std::queue<Node*>& queue) const
+{
+    if(queue.empty())
+        return;
+
+    tree = queue.front();
+    std::cout << queue.front()->data << ' ';
+    queue.pop();
+
+    if(tree->left != nullptr)
+        queue.push(tree->left);
+    if(tree->right != nullptr)
+        queue.push(tree->right);
+    
+    _printBFS(tree,queue);
+}
+
+void BinarySearch::printBFS() const
+{
+    std::queue<Node*> queue;
+    queue.push(root);
+    _printBFS(root,queue);
+}
+
 void BinarySearch::_printTree(Node *tree) const
 {
-    if (tree == NULL)
+    if (tree == nullptr)
         return;
 
     _printTree(tree->left);
